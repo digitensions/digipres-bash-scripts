@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<policy type="or" name="Check DPX image sequence conforms to BFI RAWcooked license requirements" license="MIT">
+  <description>Tests if the first DPX file in a sequence conforms to current RAWcooked license.&#xD;
+- Also checks for split bitdepth and colorspace which is not currently supported by RAWcooked.
+- Maintainer Joanna White&#xD;</description>
+  <policy type="and" name="Image sequence conformance">
+    <rule name="General/Format is DPX" value="Format" tracktype="General" occurrence="*" operator="=">DPX</rule>
+    <rule name="General/File extension is DPX" value="FileExtension" tracktype="General" occurrence="*" operator="=">dpx</rule>
+    <rule name="Image/ColorSpace is RGB / A" value="ColorSpace" tracktype="Image" occurrence="*" operator="!=">RGB / A</rule>
+    <rule name="Image/BitDepth is 10 / 1" value="BitDepth" tracktype="Image" occurrence="*" operator="!=">10 / 1</rule>
+    <rule name="Image/colour_description_present is Yes / Yes" value="colour_description_present" tracktype="Image" occurrence="*" operator="!=">Yes / Yes</rule>
+  </policy>
+  <policy type="or" name="DPX conformance for Video/Image"> 
+    <policy type="and" name="Image specifics, do they conform?">
+      <rule name="Image/Format_Compression is Raw" value="Format_Compression" tracktype="Image" occurrence="*" operator="=">Raw</rule>
+      <rule name="Image/Compression_Mode is Lossless" value="Compression_Mode" tracktype="Image" occurrence="*" operator="=">Lossless</rule>
+      <rule name="Image/Colorspace is RGB" value="ColorSpace" tracktype="Image" occurrence="*" operator="=">RGB</rule>
+      <rule name="Image/BitDepth is NOT 12" value="BitDepth" tracktype="Image" occurrence="*" operator="!=">12</rule>       
+    </policy>
+    <policy type="and" name="Video specifics, do they conform?">
+      <rule name="Video/Format_Compression is Raw" value="Format_Compression" tracktype="Video" occurrence="*" operator="=">Raw</rule>
+      <rule name="Video/Compression_Mode is Lossless" value="Compression_Mode" tracktype="Video" occurrence="*" operator="=">Lossless</rule>
+      <rule name="Video/Colorspace is RGB" value="ColorSpace" tracktype="Video" occurrence="*" operator="=">RGB</rule>
+      <rule name="Video/BitDepth is NOT 12" value="BitDepth" tracktype="Video" occurrence="*" operator="!=">12</rule>  
+    </policy>
+  </policy>
+</policy>
+
