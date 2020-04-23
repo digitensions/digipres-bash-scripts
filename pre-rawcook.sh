@@ -66,11 +66,11 @@ done
 
 # Move failure list to dpx_for_review/ folder
 log "Moving items found to have audio files, or failed MediaConch policy to dpx_for_review/ folder"
-find "${dpx_path}"temp_dpx_failure_list.txt -name "*dpx_to_cook" | parallel --jobs 10 "mv {} ${dpx_path}dpx_for_review/"
+cat "${dpx_path}"temp_dpx_failure_list.txt | grep "/mnt*" | parallel --jobs 10 "mv {} "${dpx_path}"dpx_for_review/"
 
 # FFmpeg process moved to end, so only successful cases get cooked. Time consuming process, one parallel job at time.
 log "Framemd5 manifest generation will now start for items on temp_dpx_success_list.txt"
-find "${dpx_path}"temp_dpx_success_list.txt -name "$file_scan_name" | parallel --jobs 1 "ffmpeg -pattern_type glob -i {}/*.dpx -f framemd5 {}/sequence_md5.framemd5"
+cat "${dpx_path}"temp_dpx_success_list.txt | grep "/mnt*" | parallel --jobs 1 "ffmpeg -pattern_type glob -i "{}/*.dpx" -f framemd5 "{}/sequence_md5.framemd5""
 
 # End of process
 log "********** Pre-RAWcooked worfklows end **********"
