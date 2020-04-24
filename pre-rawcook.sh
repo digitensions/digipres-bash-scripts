@@ -17,10 +17,10 @@ function log {
 } >> ${dpx_path}pre_rawcook.log
 
 # Write first log output
-log "++++++++++++ Pre-RAWcooked workflows start ++++++++++"
+echo "========== ++++++++++++ Pre-RAWcooked workflows start +++++++++++ ========== $timestamp" >> ${dpx_path}pre_rawcook.log
 
 # Search for folders in dpx_to_cook that have not been modified in last 24 hours
-find "${dpx_path}dpx_to_cook/" -maxdepth 3 -mindepth 3 -type d -mmin +1440 | while IFS= read -r files; do
+find "${dpx_path}dpx_to_cook/" -maxdepth 3 -mindepth 3 -type d | while IFS= read -r files; do
     
     # Captures first dpx from within sequence for metadata generation specific to DPX
     dpx=$(ls "$files" | head -1)
@@ -61,16 +61,20 @@ find "${dpx_path}dpx_to_cook/" -maxdepth 3 -mindepth 3 -type d -mmin +1440 | whi
             fi
         else
             log "Skipping DPX folder, it has already been processed: $file_scan_name"
+            log "$file_scan_name - Why has this file been skipped?"
     fi
 done
 
+# FFmpeg process moved to end, so only successful cases get cooked. Time consuming process, might need deprecating for non-BAU workflows
+log "Framemd5 manifest generation will now start for items on temp_dpx_success_list.txt"
+grep "$filename" "${dpx_path}"temp_dpx_success_list.txt | parallel --jobs 1 "ffmpeg -pattern_type glob -i '{}/*.dpx' -f framemd5 '{}/sequence_md5_framemd5.txt'"
+
 # Move failure list to dpx_for_review/ folder
 log "Moving items found to have audio files, or failed MediaConch policy to dpx_for_review/ folder"
-cat "${dpx_path}"temp_dpx_failure_list.txt | grep "/mnt*" | parallel --jobs 10 "mv {} "${dpx_path}"dpx_for_review/"
+cat "${dpx_path}"temp_dpx_failure_list.txt | rev | cut -c 17- | rev | parallel --jobs 10 "mv "{}" "${dpx_path}dpx_for_review/""
 
-# FFmpeg process moved to end, so only successful cases get cooked. Time consuming process, one parallel job at time.
-log "Framemd5 manifest generation will now start for items on temp_dpx_success_list.txt"
-cat "${dpx_path}"temp_dpx_success_list.txt | grep "/mnt*" | parallel --jobs 1 "ffmpeg -pattern_type glob -i "{}/*.dpx" -f framemd5 "{}/sequence_md5.framemd5""
+# Move successful files to rawcook/ folder ready for rawcook.sh script actions
+cat "${dpx_path}"temp_dpx_success_list.txt | rev | cut -c 17- | rev | parallel --jobs 10 "mv "{}" "${dpx_path}rawcooked/""
 
 # End of process
-log "********** Pre-RAWcooked worfklows end **********"
+echo "========== ++++++++++++ Pre-RAWcooked workflows ends +++++++++++ ========== $timestamp" >> ${dpx_path}pre_rawcook.log
