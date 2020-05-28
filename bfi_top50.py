@@ -69,23 +69,23 @@ def main():
         choice = str(input("Which film do you want to check?: ")).strip().title()
         if choice in films:
             print("The film",choice,"is in the top 50, positioned at number",films[choice][0])
-            break
         else:
             print("Your film choice doesn't appear in the list, what a shame :(")
 
     answer = str(input("Would you like to see the complete list of films? [yes/no]: ")).strip().lower()
-    # This doesn't work as if statement, but while in it's place means the list repeats infinitely
-    if answer is "yes":
+    # This doesn't work as the list repeats infinitely, need to fix
+    while answer is "yes":
         print("The BFI's top 50 films for 2019:")
         for key, value in films.items():
             print(key, ' : ',value)
         
     try_again = str(input("Would you like to try checking another film title? [yes/no]: ")).strip().lower()
     if try_again[0] == "yes":
-        answer = str(input("Would you like to see the complete list of films? [yes/no]: ")).strip().lower()
+        # A return to beginning solution needs finding for here
         main()
-        # this item does not loop back to the beginning when yes is answered.
     else:
+        print("Thank you for trying out this script! Have a lovely day :)")
         exit
 
+# Is this needed?
 main()
