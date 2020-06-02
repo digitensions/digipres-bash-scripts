@@ -1,5 +1,5 @@
 # digipres-bash-scripts
-This is a repository to stash some useful scripts I've made or amended that I hope to use in various digipres workflows.
+This is a repository to stash some useful scripts I've made or amended that I hope to use in various digipres workflows, or are just training scripts.
 
 They're written in bash shell and Python 3, and if you wish to experiment or test them please create a safe environment to test them in.
 
