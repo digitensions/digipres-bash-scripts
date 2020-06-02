@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 '''
-Fun script that references a dictionary of films and ranks, to see if you favourite film made it to the BFI's top 50 list.
-Asks you to enter a film you'd like to check
-Lists the item and it's rank if successful
-If not, asks if you'd like to see the complete list
-Asks finally if you'd like to restart the process by checking another title
+Learning script that references a dictionary of films to see if user input film made it to the BFI's top 50 list.
+Asks you to enter a film you'd like to check, then lists the item and it's rank if successful.
+If not, asks if you'd like to see the complete list.
+Asks finally if you'd like to restart the process by checking another title or not.
 '''
 
 films = {
