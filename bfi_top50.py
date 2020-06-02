@@ -78,15 +78,19 @@ def main():
         print("\nThe BFI's top 50 films for 2019 and their ranking: \n")
         for i in films:
             print(i,films[i])
-    else:
+    elif answer[0] == "n":
         print("\nOkay!")
+    else:
+        print("I'm afraid you didn't give a valid answer. Let's start over!")
 
     try_again = str(input("\nWould you like to try checking another film title? [y/n]: ")).strip().lower()
     if try_again[0] == "n":
         print("\nThank you so much for trying this BFI 'Film of 2019' checker. Good bye!\n")
         quit()
-    else:
+    elif try_again[0] == "y":
         print("\nOkay, let's try again! Good luck :)\n********************************************************")
+    else:
+        print("I'm afraid you didn't give a valid answer. Let's start over!")        
 
 while exit_command:
     main()
