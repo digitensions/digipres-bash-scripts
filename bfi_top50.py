@@ -4,8 +4,8 @@
 Fun script that references a dictionary of films and ranks, to see if you favourite film made it to the BFI's top 50 list.
 Asks you to enter a film you'd like to check
 Lists the item and it's rank if successful
-If not, asks if you'd like to see the complete list (this needs an exit)
-Asks finally if you'd like to restart the process by checking another title.
+If not, asks if you'd like to see the complete list
+Asks finally if you'd like to restart the process by checking another title
 '''
 
 films = {
@@ -61,31 +61,32 @@ films = {
     "The Souvenir": [1]
 }
 
+exit_command = True
 def main():
-    while True:
-        print("Hello! welcome to the BFI 'Films of 2019' checker")
-        print("You can use this script to check whether your favourite film of 2019")
-        print("made it to their top 50 and which position the BFI gave it.")
-        choice = str(input("Which film do you want to check?: ")).strip().title()
-        if choice in films:
-            print("The film",choice,"is in the top 50, positioned at number",films[choice][0])
-        else:
-            print("Your film choice doesn't appear in the list, what a shame :(")
-
-    answer = str(input("Would you like to see the complete list of films? [yes/no]: ")).strip().lower()
-    # This doesn't work as the list repeats infinitely, need to fix
-    while answer is "yes":
-        print("The BFI's top 50 films for 2019:")
-        for key, value in films.items():
-            print(key, ' : ',value)
-        
-    try_again = str(input("Would you like to try checking another film title? [yes/no]: ")).strip().lower()
-    if try_again[0] == "yes":
-        # A return to beginning solution needs finding for here
-        main()
+    print("\nHello! welcome to the BFI 'Films of 2019' checker\n")
+    print("You can use this script to check whether your favourite film of 2019")
+    print("made it to their top 50 and which position the BFI gave it...\n")
+    choice = str(input("Which film do you want to check?: ")).strip().title()
+    if choice in films:
+        print("\nThe film",choice,"is in the top 50, positioned at number",films[choice][0])
     else:
-        print("Thank you for trying out this script! Have a lovely day :)")
-        exit
+        print("\nYour film choice doesn't appear in the list, what a shame :(\n")
 
-# Is this needed?
-main()
+    answer = str(input("\nWould you like to see the complete list of films? [y/n]: ")).strip().lower()
+    # This doesn't work as if statement, but while in it's place means the list repeats infinitely
+    if answer[0] == "y":
+        print("\nThe BFI's top 50 films for 2019 and their ranking: \n")
+        for i in films:
+            print(i,films[i])
+    else:
+        print("\nOkay!")
+
+    try_again = str(input("\nWould you like to try checking another film title? [y/n]: ")).strip().lower()
+    if try_again[0] == "n":
+        print("\nThank you so much for trying this BFI 'Film of 2019' checker. Good bye!\n")
+        quit()
+    else:
+        print("\nOkay, let's try again! Good luck :)\n********************************************************")
+
+while exit_command:
+    main()
