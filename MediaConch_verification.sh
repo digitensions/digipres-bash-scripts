@@ -8,7 +8,7 @@
  
 mkv_destination="/mnt/qnap/Public/rawcooked/"
  
-find ${mkv_destination}mkv_cooked/ -name "*.mkv" -mmin +20 | while IFS= read -r files; do
+find ${mkv_destination}mkv_cooked/ -name "*.mkv" -mmin +20 -print0 | while IFS= read -r files; do
 check=$(mediaconch --force -p /mnt/isilon/rawcooked/mkv_policy.xml "$files" | grep "fail")
 filename=$(basename "$files") 
   if [ -z "$check" ];
